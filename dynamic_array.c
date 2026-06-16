@@ -11,26 +11,26 @@ typedef struct
 
 dynamArr* arrCreate(int cap, int len)
 {
-	dynamArr* r = (dynamArr*)malloc(sizeof(dynamArr);
-			if (r != NULL)
-			{
-			r->capacity = cap;
-			r->length = len;
-			r->array = malloc(sizeof(int) * cap);
-			}
+	dynamArr* r = (dynamArr*)malloc(sizeof(dynamArr));
+	if (r != NULL)
+	{
+		r->capacity = cap;
+		r->length = len;
+		r->array = malloc(sizeof(int) * cap);
+	}
 
-			return r;
-			}
+	return r;
+}
 
-			int access_arr(const dynamArr* self, int id)
-			{
-			if (id >= self->length || id < 0)
-			{
-			return ERANGE;
-			}
+int access_arr(const dynamArr* self, int id)
+{
+	if (id >= self->length || id < 0)
+	{
+		return ERANGE;
+	}
 
-			return self->array[id];
-			}
+	return self->array[id];
+}
 
 void append(dynamArr* self, int elem)
 {
@@ -50,5 +50,44 @@ void append(dynamArr* self, int elem)
 	self->array[self->length] = elem;
 	self->length++;
 
+}
+
+void del(dynamArr* self, int id)
+{
+	if (id < 0 || id >= self->length)
+        {
+                printf("Invalid Index");
+                return;
+        }
+
+	if (self->length == 1)
+	{
+		free(self->array);
+		self->array = NULL;
+		self->length = 0;
+		self->capacity = 0;
+		printf("Array deleted");
+		return;
+	}
+
+	int* new_loc;
+	int i;
+	for (i = id; i < (self->length - 1); i++)
+	{
+		self->array[i] = self->array[i+1];
+	}
+	self->length--;
+	if (self->length <= 0.25 * self->capacity)
+	{
+		new_loc = realloc(self->array, sizeof(int) * (self->length*2));
+
+		if (!new_loc)
+		{
+			printf("Memory Reallocation failed");
+			return;
+		}
+		self->capacity = self->length*2; 
+		self->array = new_loc;
+	}
 }
 
