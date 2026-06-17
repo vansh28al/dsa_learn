@@ -1,6 +1,4 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<errno.h>
+#include "dynamic_array.h"
 
 typedef struct 
 {
@@ -137,7 +135,7 @@ void free_array(dynamArr* self)
 	}
 }
 
-int find_elem(dynamArr* self, int elem)
+int find_elem(const dynamArr* self, int elem)
 {
 	int i = 0;
 	for(i = 0; i < self->length; i++)
