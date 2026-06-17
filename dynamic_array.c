@@ -17,6 +17,11 @@ dynamArr* arrCreate(int cap, int len)
 		r->capacity = cap;
 		r->length = len;
 		r->array = malloc(sizeof(int) * cap);
+		if (!r->array)
+		{
+			printf("Memory allocation failed\n");
+			free(r);
+			return NULL;
 	}
 
 	return r;
@@ -26,6 +31,7 @@ int access_arr(const dynamArr* self, int id)
 {
 	if (id >= self->length || id < 0)
 	{
+		printf("Invalid index | Assigned Error Code 34");
 		return ERANGE;
 	}
 
@@ -41,7 +47,7 @@ void append(dynamArr* self, int elem)
 		new_loc = realloc(self->array, sizeof(int) * self->capacity);
 		if (!new_loc)
 		{
-			printf("Memory Allocation Failed");
+			printf("Memory Allocation Failed\n");
 			self->capacity /= 2;
 			return;
 		}
@@ -56,7 +62,7 @@ void del(dynamArr* self, int id)
 {
 	if (id < 0 || id >= self->length)
         {
-                printf("Invalid Index");
+                printf("Invalid Index\n");
                 return;
         }
 
@@ -66,7 +72,7 @@ void del(dynamArr* self, int id)
 		self->array = NULL;
 		self->length = 0;
 		self->capacity = 0;
-		printf("Array deleted");
+		printf("Array deleted\n");
 		return;
 	}
 
@@ -83,7 +89,7 @@ void del(dynamArr* self, int id)
 
 		if (!new_loc)
 		{
-			printf("Memory Reallocation failed");
+			printf("Memory Reallocation failed\n");
 			return;
 		}
 		self->capacity = self->length*2; 
@@ -93,9 +99,9 @@ void del(dynamArr* self, int id)
 
 void insert_at(dynamArr* self, int elem, int id)
 {
-	if (id >= self->length)
+	if (id > self->length || id < 0)
 	{
-		printf("Invalid index");
+		printf("Invalid index\n");
 		return;
 	}
 	int* new_loc;
@@ -105,7 +111,7 @@ void insert_at(dynamArr* self, int elem, int id)
                 new_loc = realloc(self->array, sizeof(int) * self->capacity);
                 if (!new_loc)
                 {
-                        printf("Memory Allocation Failed");
+                        printf("Memory Allocation Failed\n");
                         self->capacity /= 2;
                         return;
                 }
@@ -127,25 +133,21 @@ void free_array(dynamArr* self)
 	if (self != NULL)
 	{
 		free(self->array);
-		self->array = NULL;
-		self->length = 0;
-		self->capacity = 0;
+		free(self);
 	}
 }
 
 int find_elem(dynamArr* self, int elem)
 {
-	int found = 0;
-	int i = -1;
-	while ((i < self->length) & !found)
+	int i = 0;
+	for(i = 0; i < self->length; i++)
 	{
-		i++;
 		if (self->array[i] == elem)
 		{
-			found = 1;
+			return i;
 		}
 	}
-	return i;
+	return -1;
 }
 		
 
