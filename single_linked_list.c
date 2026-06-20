@@ -1,10 +1,10 @@
-#include<stdlib.>
+#include<stdlib.h>
 #include<stdio.h>
-#include<errno.h>
+#include "single_linked_list.h"
 
 typedef struct node
 {
-	node* fwd;
+	struct node* fwd;
 	int value;
 } node;
 typedef struct
@@ -23,6 +23,7 @@ oneWayLinkList* create(void)
 		r->tail = NULL;
 		r->length = 0;
 	}
+	return r;
 }
 
 void append(oneWayLinkList* self, int v)
@@ -30,11 +31,11 @@ void append(oneWayLinkList* self, int v)
 	node* next = (node*)malloc(sizeof(node));
 	if(!next)
 	{
-		printf("Memory AllocationFailed");
+		printf("Memory Allocation Failed\n");
 		return;
 	}
 
-	next-value = v;
+	next->value = v;
 	next->fwd = NULL;
 
 	if (self->length > 0)
@@ -54,7 +55,7 @@ void insert(oneWayLinkList* self, int v, int id)
 {
 	if (id < 0 || id > self->length)
 	{
-		printf("invalid index")
+		printf("invalid index\n");
 		return;
 	}
 	if (id == self->length)
@@ -73,7 +74,7 @@ void insert(oneWayLinkList* self, int v, int id)
 	if(id==0)
 	{
 		new_node->fwd = self->head;
-		self->head = new;
+		self->head = new_node;
 		self->length++;
 		return;
 	}
@@ -101,8 +102,8 @@ void del(oneWayLinkList* self, int id)
 	if (id == 0)
 	{
 		node* temp = self->head;
-		self->head = self0>head->fwd;
-		free(temp):
+		self->head = self->head->fwd;
+		free(temp);
 		self->length--;
 		if (self->length == 0)
 		{
@@ -115,7 +116,7 @@ void del(oneWayLinkList* self, int id)
 	if (id == (self->length - 1))
 	{
 		node* prev = self->head;
-		for (i = 0; i < length - 2; i++)
+		for (i = 0; i < self->length - 2; i++)
 		{
 			prev = prev->fwd;
 		}
