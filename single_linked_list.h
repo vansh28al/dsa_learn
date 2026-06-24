@@ -21,5 +21,6 @@ void append(oneWayLinkList* self, int v);
 void insert(oneWayLinkList* self, int v, int id);  
 void del(oneWayLinkList* self, int id);  
 void free_list(oneWayLinkList* self); 
+void reverse(oneWayLinkList* self);
 
-#endif 
+eendif 

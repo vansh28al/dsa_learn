@@ -162,8 +162,25 @@ void free_list(oneWayLinkList* self)
     free(self);
 }
 
-			
+void reverse(oneWayLinkList* self)
+{
+	if (self == NULL || self->length <= 1)
+	{
+		return;
+	}
 
-
-			
-
+	node* prev = NULL;
+	node* curr = self->head;
+	node* old_head = self->head;
+	self->head = self->tail;
+	self->tail = old_head;
+	node* next_node = NULL;
+	
+	while(curr != NULL)
+	{
+		next_node = curr->fwd;
+		curr->fwd = prev;
+		prev = curr;
+		curr = next_node;
+	}
+}
